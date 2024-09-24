@@ -2,7 +2,18 @@
   "name": "espocrm",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "clean:report": "rimraf allure-report allure-results && mkdirp allure-report allure-results",
+    "generate:report": "npx allure generate ./allure-results --clean",
+    "open:report": "npx allure open ./allure-report",
+    "execute:scrpit": "npx playwright test",
+    "pretest": "npm run clean:report",
+    "posttest": "npm run generate:report && npm run open:report",
+    "test:chromium": "npm run pretest && npm run chromium && npm run posttest|| npm run posttest",
+    "test:firefox": "npm run pretest && npm run firefox && npm run posttest|| npm run posttest",
+    "test:webkit": "npm run pretest && npm run webkit && npm run posttest|| npm run posttest",
+    "test": "npm run execute:scrpit || npm run posttest"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -10,6 +21,10 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.2",
     "@playwright/test": "^1.46.1",
-    "@types/node": "^22.5.2"
+    "@types/node": "^22.5.2",
+    "allure-commandline": "^2.24.0",
+    "allure-playwright": "^2.8.1",
+    "mkdirp": "^3.0.1",
+    "rimraf": "^6.0.1"
   }
 }

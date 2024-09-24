@@ -28,9 +28,8 @@ export class CreateAccount extends BasePage {
   private readonly copyButton:Locator;
   private readonly saveButton:Locator;
   private readonly typeofIndustry:Locator;
+  private readonly nameErrorMessage:Locator;
   
- 
-
   constructor(page: Page) {
     super(page);
 
@@ -59,7 +58,7 @@ export class CreateAccount extends BasePage {
     this.copyButton=page.locator('button[class="btn btn-default btn-sm"]');
     this.saveButton=page.locator('button[data-name="save"]');
     this.typeofIndustry=page.locator('//div[normalize-space()="Automotive"]');
-   
+    this.nameErrorMessage=page.locator('.popover-content');
     
   }
 
@@ -167,5 +166,7 @@ export class CreateAccount extends BasePage {
     await this.clickelement(this.saveButton);
   }
 
-  
+  async getNameErrorText(): Promise<string>{
+    return await this.getElementText(this.nameErrorMessage);
+  }  
 }

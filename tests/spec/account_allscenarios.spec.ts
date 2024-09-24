@@ -5,6 +5,7 @@
     import fs from 'fs/promises';
 
     let updatedEspoCRM;
+    const nameErrorMessage='Name is required';
 
     test.beforeEach(async ({ page, loginpage }) => {
         await generateMockData('testData/espoCRM.json');
@@ -48,3 +49,10 @@
         await createAccount.clickSave();
         expect(await accountPage.getAccountTitleText()).toEqual(updatedEspoCRM.nameofAccount);
     });
+
+    test('Verify Mandatory Fields', async ({ homepage, accountPage, createAccount }) => {
+        await homepage.clickaccountButton();
+        await accountPage.clickCreateAccountButton();
+        await createAccount.clickSave();
+        expect(await createAccount.getNameErrorText()).toEqual(nameErrorMessage);
+    })
