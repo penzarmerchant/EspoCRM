@@ -5,4 +5,4 @@ node_modules/
 /playwright/.cache/
 /allure-results/
 /allure-report/
-/testData/espoCRM.json/
+testData/espoCRM.json
