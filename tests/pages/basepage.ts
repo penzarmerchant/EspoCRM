@@ -40,4 +40,8 @@ export default class BasePage {
     this.waitForElementVisible(element);
     return element.isVisible();
   }
+
+  async getElementCount(element: Locator): Promise<number> {
+   return await element.count();
+  }
 }
