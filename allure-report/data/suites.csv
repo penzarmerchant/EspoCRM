@@ -1,7 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","22274","Verify creation of a new contact","chromium","Tue Sep 24 22:58:50 IST 2024","failed","Tue Sep 24 22:59:12 IST 2024","","spec\contact_allscenarios.spec.ts","",""
-"","31171","Create New Account","webkit","Tue Sep 24 22:59:51 IST 2024","broken","Tue Sep 24 23:00:22 IST 2024","","spec\account_allscenarios.spec.ts","",""
-"","34036","Create New Account","firefox","Tue Sep 24 22:59:15 IST 2024","broken","Tue Sep 24 22:59:49 IST 2024","","spec\account_allscenarios.spec.ts","",""
-"","31105","Create New Account","chromium","Tue Sep 24 22:58:51 IST 2024","broken","Tue Sep 24 22:59:22 IST 2024","","spec\account_allscenarios.spec.ts","",""
-"","30707","Verify creation of a new contact","webkit","Tue Sep 24 22:59:57 IST 2024","broken","Tue Sep 24 23:00:27 IST 2024","","spec\contact_allscenarios.spec.ts","",""
-"","28985","Verify creation of a new contact","firefox","Tue Sep 24 22:59:26 IST 2024","failed","Tue Sep 24 22:59:55 IST 2024","","spec\contact_allscenarios.spec.ts","",""
