@@ -1,16 +1,16 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
-import { CreateAccount } from "./createAccount";
-import { AssignedUser } from "./assignedUser";
-import { Teams } from "./teams";
+import { CreateAccountPage } from "./createAccountPage";
+import { AssignedUserPage } from "./assignedUserPage";
+import { TeamsPage } from "./teamsPage";
 import * as espoCRM from "@testData/espoCRM.json";
 import { generateMockData } from "@testData/generateTestData";
-import fs from 'fs/promises';
+import fs from "fs/promises";
 
 export class AccountPage extends BasePage {
-  private readonly createAccount: CreateAccount;
-  private readonly assignedUser: AssignedUser;
-  private readonly teams: Teams;
+  private readonly createAccount: CreateAccountPage;
+  private readonly assignedUser: AssignedUserPage;
+  private readonly teams: TeamsPage;
   private readonly createAccountButton: Locator;
   private readonly accountNameTitle: Locator;
   private readonly searchBarInputBox: Locator;
@@ -19,10 +19,10 @@ export class AccountPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.createAccount = new CreateAccount(page);
-    this.assignedUser=new AssignedUser(page);
-    this.teams=new Teams(page)
-    this.createAccountButton = page.locator('a[title="Ctrl+Space"]');
+    this.createAccount = new CreateAccountPage(page);
+    this.assignedUser = new AssignedUserPage(page);
+    this.teams = new TeamsPage(page);
+    this.createAccountButton = page.locator('a[href="#Account"]');
     this.accountNameTitle = page.locator(".title");
     this.searchBarInputBox = page.locator('input[data-name="textFilter"]');
     this.searchIcon = page.locator('button[title="Search"]');

@@ -1,68 +1,68 @@
-import {test as baseTest} from '@playwright/test'
-import { LoginPage } from '@pages/loginPage'
-import  {HomePage} from '@pages/homePage'
-import  {CreateContact} from '@pages/createContact'
-import { ContactPage } from '@pages/contactPage'
-import  {AccountPage} from '@pages/accountPage'
-import  {CreateAccount} from '@pages/createAccount'
-import  {Teams} from '@pages/teams'
-import  {AssignedUser} from '@pages/assignedUser'
-import {TeamsContact} from '@pages/teamsContact'
-import {CreatedContact} from '@pages/createdContact'
+import { test as baseTest } from "@playwright/test";
+import { LoginPage } from "@pages/loginPage";
+import { HomePage } from "@pages/homePage";
+import { CreateContactPage } from "@pages/createContactPage";
+import { ContactPage } from "@pages/contactPage";
+import { AccountPage } from "@pages/accountPage";
+import { CreateAccountPage } from "@pages/createAccountPage";
+import { TeamsPage } from "@pages/teamsPage";
+import { AssignedUserPage } from "@pages/assignedUserPage";
+import { TeamsContactPage } from "@pages/teamsContactPage";
+import { ContactInfoPage } from "@pages/contactInfoPage";
 
 type pages = {
-    homepage:HomePage,
-    loginpage:LoginPage,
-    createContact:CreateContact,
-    contactpage:ContactPage,
-    accountPage:AccountPage,
-    createAccount:CreateAccount,  
-    teams:Teams,
-    assignedUser:AssignedUser,
-    teamsContact:TeamsContact,
-    createdContact:CreatedContact
-}
+  homepage: HomePage;
+  loginpage: LoginPage;
+  createContactPage: CreateContactPage;
+  contactpage: ContactPage;
+  accountPage: AccountPage;
+  createAccountPage: CreateAccountPage;
+  teamsPage: TeamsPage;
+  assignedUserPage: AssignedUserPage;
+  teamsContactPage: TeamsContactPage;
+  createdContactPage: ContactInfoPage;
+};
 const testPages = baseTest.extend<pages>({
-    homepage: async({page}, use) =>{
-        await use(new HomePage(page));
-    },
+  homepage: async ({ page }, use) => {
+    await use(new HomePage(page));
+  },
 
-    loginpage: async({page}, use) =>{
-        await use(new LoginPage(page));
-    },
+  loginpage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
 
-    createContact: async({page}, use) =>{
-        await use(new CreateContact(page));
-    },
+  createContactPage: async ({ page }, use) => {
+    await use(new CreateContactPage(page));
+  },
 
-    contactpage:async({page},use)=>{
-        await use(new ContactPage(page))
-    },
+  contactpage: async ({ page }, use) => {
+    await use(new ContactPage(page));
+  },
 
-    accountPage:async({page},use)=>{
-        await use(new AccountPage(page))
-    },
+  accountPage: async ({ page }, use) => {
+    await use(new AccountPage(page));
+  },
 
-    assignedUser:async({page},use)=>{
-        await use(new AssignedUser(page))
-    },
+  assignedUserPage: async ({ page }, use) => {
+    await use(new AssignedUserPage(page));
+  },
 
-    teams:async({page},use)=>{
-        await use(new Teams(page))
-    },
+  teamsPage: async ({ page }, use) => {
+    await use(new TeamsPage(page));
+  },
 
-    createAccount: async({page}, use) =>{
-        await use(new CreateAccount(page));
-    },
+  createAccountPage: async ({ page }, use) => {
+    await use(new CreateAccountPage(page));
+  },
 
-    teamsContact:async({page},use)=>{
-        await use(new TeamsContact(page))
-    },
+  teamsContactPage: async ({ page }, use) => {
+    await use(new TeamsContactPage(page));
+  },
 
-    createdContact:async({page},use)=>{
-        await use(new CreatedContact(page))
-    },
-})
+  createdContactPage: async ({ page }, use) => {
+    await use(new ContactInfoPage(page));
+  },
+});
 
 export const test = testPages;
 export const expect = testPages.expect;

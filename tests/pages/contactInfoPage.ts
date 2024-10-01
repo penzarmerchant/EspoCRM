@@ -1,7 +1,7 @@
 import {Page,Locator, expect} from '@playwright/test'
 import BasePage from './basepage';
 
-export class CreatedContact extends BasePage
+export class ContactInfoPage extends BasePage
 {
     private readonly contactText:Locator;
 
