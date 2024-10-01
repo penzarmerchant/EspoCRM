@@ -22,7 +22,7 @@ export class AccountPage extends BasePage {
     this.createAccount = new CreateAccountPage(page);
     this.assignedUser = new AssignedUserPage(page);
     this.teams = new TeamsPage(page);
-    this.createAccountButton = page.locator('a[href="#Account"]');
+    this.createAccountButton = page.locator('a[href="#Account/create"]',{hasText:"Create Account"});
     this.accountNameTitle = page.locator(".title");
     this.searchBarInputBox = page.locator('input[data-name="textFilter"]');
     this.searchIcon = page.locator('button[title="Search"]');

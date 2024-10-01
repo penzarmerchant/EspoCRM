@@ -6,7 +6,7 @@ export class AssignedUserPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.userSelection = page.locator('a[class="link text-warning"]');
+    this.userSelection = page.locator('td[data-name="name"] a[href="#User/view/1"]');
   }
 
   async clickAssignedUserType() {

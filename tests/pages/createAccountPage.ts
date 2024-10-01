@@ -32,12 +32,10 @@ export class CreateAccountPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.nameTextBox = page.locator('//input[@data-name="name"]');
-    this.websiteTextBox = page.locator('//input[@data-name="website"]');
-    this.emailTextBox = page.locator(
-      '//input[@class="form-control email-address"]'
-    );
-    this.phoneTextBox = page.locator('//input[@type="input"]');
+    this.nameTextBox = page.locator('input[data-name="name"]');
+    this.websiteTextBox = page.locator('input[data-name="website"]');
+    this.emailTextBox = page.locator('input[type="email"]');
+    this.phoneTextBox = page.locator('.phone-number');
     this.streetBillingAddTextBox = page.locator(
       'textarea[data-name="billingAddressStreet"]'
     );
@@ -50,37 +48,13 @@ export class CreateAccountPage extends BasePage {
     this.postalCodeBillingAddTextBox = page.locator(
       'input[data-name="billingAddressPostalCode"]'
     );
-    this.countryBillingAddTextBox = page.locator(
-      'input[data-name="billingAddressCountry"]'
-    );
-    this.streetShippingAddTextBox = page.locator(
-      'textarea[data-name="shippingAddressStreet"]'
-    );
-    this.cityShippingAddTextBox = page.locator(
-      'input[data-name="shippingAddressCity"]'
-    );
-    this.countyShippingAddTextBox = page.locator(
-      'input[data-name="shippingAddressState"]'
-    );
-    this.postalCodeShippingAddTextBox = page.locator(
-      'input[data-name="shippingAddressPostalCode"]'
-    );
-    this.countryShippingAddTextBox = page.locator(
-      'input[data-name="shippingAddressCountry"]'
-    );
-    this.typeTextBox = page.locator(
-      '(//div[@class="selectize-control form-control main-element single plugin-espo_select"])[1]'
-    );
-    this.industryTextBox = page.locator(
-      '(//div[@class="selectize-input items full has-options has-items"])[2]'
-    );
+    this.countryBillingAddTextBox = page.locator('input[data-name="billingAddressCountry"]'); 
+    this.typeTextBox = page.locator('div[data-name="type"]:nth-child(2)');
+    this.industryTextBox = page.locator('(//div[@data-name="industry"])[2]');
     this.descriptionTextBox = page.locator('textarea[data-name="description"]');
     this.assignedUser = page.locator('(//button[@title="Select"])[1]');
     this.teams = page.locator('(//button[@title="Select"])[2]');
     this.selectCity = page.locator('//div[normalize-space(text())="London"]');
-    this.citySelection = page.locator(
-      '//div[normalize-space(text())="Brighton"]'
-    );
     this.typeofAccount = page.locator('div[data-value="Partner"]');
     this.copyButton = page.locator('button[class="btn btn-default btn-sm"]');
     this.saveButton = page.locator('button[data-name="save"]');
@@ -125,32 +99,6 @@ export class CreateAccountPage extends BasePage {
 
   async enterbillingAddressCountry(billingAddressCountry: string) {
     await this.fillField(this.countryBillingAddTextBox, billingAddressCountry);
-  }
-
-  async enterShippingAddressStreet(shippingAddressStreet: string) {
-    await this.fillField(this.streetShippingAddTextBox, shippingAddressStreet);
-  }
-
-  async enterShippingAddressCity() {
-    await this.clickelement(this.cityShippingAddTextBox);
-  }
-
-  async enterShippingAddressCounty(shippingAddressCounty: string) {
-    await this.fillField(this.countyShippingAddTextBox, shippingAddressCounty);
-  }
-
-  async enterShippingPostalCode(shippingAddresspostalCode: string) {
-    await this.fillField(
-      this.postalCodeShippingAddTextBox,
-      shippingAddresspostalCode
-    );
-  }
-
-  async enterShippingAddressCountry(shippingAddressCountry: string) {
-    await this.fillField(
-      this.countryShippingAddTextBox,
-      shippingAddressCountry
-    );
   }
 
   async enterTypeofAccount() {
