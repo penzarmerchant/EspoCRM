@@ -1,7 +1,14 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
+import * as espoCRM from "@testData/espoCRM.json";
+import { generateMockData } from "@testData/generateTestData";
+import fs from "fs/promises";
+import { AssignedUserPage } from "./assignedUserPage";
+import { TeamsPage } from "./teamsPage";
 
 export class CreateAccountPage extends BasePage {
+  private readonly assignedUserPage: AssignedUserPage;
+  private readonly teamsPage: TeamsPage;
   private readonly nameTextBox: Locator;
   private readonly websiteTextBox: Locator;
   private readonly emailTextBox: Locator;
@@ -11,11 +18,6 @@ export class CreateAccountPage extends BasePage {
   private readonly countyBillingAddTextBox: Locator;
   private readonly postalCodeBillingAddTextBox: Locator;
   private readonly countryBillingAddTextBox: Locator;
-  private readonly streetShippingAddTextBox: Locator;
-  private readonly cityShippingAddTextBox: Locator;
-  private readonly countyShippingAddTextBox: Locator;
-  private readonly postalCodeShippingAddTextBox: Locator;
-  private readonly countryShippingAddTextBox: Locator;
   private readonly typeTextBox: Locator;
   private readonly industryTextBox: Locator;
   private readonly descriptionTextBox: Locator;
@@ -31,7 +33,8 @@ export class CreateAccountPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-
+    this.assignedUserPage=new AssignedUserPage(page);
+    this.teamsPage=new TeamsPage(page)
     this.nameTextBox = page.locator('input[data-name="name"]');
     this.websiteTextBox = page.locator('input[data-name="website"]');
     this.emailTextBox = page.locator('input[type="email"]');
@@ -55,7 +58,7 @@ export class CreateAccountPage extends BasePage {
     this.assignedUser = page.locator('(//button[@title="Select"])[1]');
     this.teams = page.locator('(//button[@title="Select"])[2]');
     this.selectCity = page.locator('//div[normalize-space(text())="London"]');
-    this.typeofAccount = page.locator('div[data-value="Partner"]');
+    this.typeofAccount = page.locator('.option',{hasText:"Partner"});
     this.copyButton = page.locator('button[class="btn btn-default btn-sm"]');
     this.saveButton = page.locator('button[data-name="save"]');
     this.typeofIndustry = page.locator('//div[normalize-space()="Automotive"]');
@@ -125,10 +128,6 @@ export class CreateAccountPage extends BasePage {
     await this.clickelement(this.selectCity);
   }
 
-  async enterShippingCity() {
-    await this.clickelement(this.citySelection);
-  }
-
   async selectAccountType() {
     await this.clickelement(this.typeofAccount);
   }
@@ -151,5 +150,32 @@ export class CreateAccountPage extends BasePage {
 
   async getNameErrorText(): Promise<string> {
     return await this.getElementText(this.nameErrorMessage);
+  }
+
+  async createCompleteAccount() {
+    await generateMockData("testData/espoCRM.json");
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    await this.enterName(espoCRM.nameofAccount);
+    await this.enterWebsite(espoCRM.website);
+    await this.enterEmail(espoCRM.email1);
+    await this.enterPhone(espoCRM.phoneAccount);
+    await this.enterBillingAddressStreet(espoCRM.streetBillingAddress);
+    await this.enterBillingAddressCity();
+    await this.enterBillingCity();
+    await this.enterbillingAddressCounty(espoCRM.county1);
+    await this.enterbillingPostalCode(espoCRM.postalCode1);
+    await this.enterbillingAddressCountry(espoCRM.country1);
+    await this.clickCopyButton();
+    await this.enterAssignedUser();
+    await this.assignedUserPage.clickAssignedUserType();
+    await this.enterTeams();
+    await this.teamsPage.selectTeams();
+    await this.teamsPage.clickSelect();
+    await this.enterTypeofAccount();
+    await this.selectAccountType();
+    await this.clickIndustry();
+    await this.selectIndustryType();
+    await this.enterDescription(espoCRM.Description);
+    await this.clickSave();
   }
 }

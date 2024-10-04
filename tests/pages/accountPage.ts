@@ -1,16 +1,8 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
-import { CreateAccountPage } from "./createAccountPage";
-import { AssignedUserPage } from "./assignedUserPage";
-import { TeamsPage } from "./teamsPage";
-import * as espoCRM from "@testData/espoCRM.json";
-import { generateMockData } from "@testData/generateTestData";
-import fs from "fs/promises";
+
 
 export class AccountPage extends BasePage {
-  private readonly createAccount: CreateAccountPage;
-  private readonly assignedUser: AssignedUserPage;
-  private readonly teams: TeamsPage;
   private readonly createAccountButton: Locator;
   private readonly accountNameTitle: Locator;
   private readonly searchBarInputBox: Locator;
@@ -19,9 +11,6 @@ export class AccountPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.createAccount = new CreateAccountPage(page);
-    this.assignedUser = new AssignedUserPage(page);
-    this.teams = new TeamsPage(page);
     this.createAccountButton = page.locator('a[href="#Account/create"]',{hasText:"Create Account"});
     this.accountNameTitle = page.locator(".title");
     this.searchBarInputBox = page.locator('input[data-name="textFilter"]');
@@ -53,33 +42,5 @@ export class AccountPage extends BasePage {
     return await this.getElementText(this.searchResultAccountName);
   }
 
-  async createCompleteAccount() {
-    await generateMockData("testData/espoCRM.json");
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    const updatedJson = await fs.readFile("testData/espoCRM.json", "utf-8");
-    await this.createAccount.enterName(espoCRM.nameofAccount);
-    await this.createAccount.enterWebsite(espoCRM.website);
-    await this.createAccount.enterEmail(espoCRM.email1);
-    await this.createAccount.enterPhone(espoCRM.phoneAccount);
-    await this.createAccount.enterBillingAddressStreet(
-      espoCRM.streetBillingAddress
-    );
-    await this.createAccount.enterBillingAddressCity();
-    await this.createAccount.enterBillingCity();
-    await this.createAccount.enterbillingAddressCounty(espoCRM.county1);
-    await this.createAccount.enterbillingPostalCode(espoCRM.postalCode1);
-    await this.createAccount.enterbillingAddressCountry(espoCRM.country1);
-    await this.createAccount.clickCopyButton();
-    await this.createAccount.enterAssignedUser();
-    await this.assignedUser.clickAssignedUserType();
-    await this.createAccount.enterTeams();
-    await this.teams.selectTeams();
-    await this.teams.clickSelect();
-    await this.createAccount.enterTypeofAccount();
-    await this.createAccount.selectAccountType();
-    await this.createAccount.clickIndustry();
-    await this.createAccount.selectIndustryType();
-    await this.createAccount.enterDescription(espoCRM.Description);
-    await this.createAccount.clickSave();
-  }
+  
 }
