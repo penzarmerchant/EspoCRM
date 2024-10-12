@@ -1,22 +1,37 @@
-import {Page,Locator} from '@playwright/test'
-import BasePage from './basepage';
+import { Page, Locator } from "@playwright/test";
+import BasePage from "./basepage";
 
-export class ContactPage extends BasePage
-{
-    private readonly createContactButton:Locator;
-    private readonly searchTextBox:Locator;
-    private readonly searchSymbol:Locator;
+export class ContactPage extends BasePage {
+  private readonly createContactButton: Locator;
+  private readonly searchTextBox: Locator;
+  private readonly searchIcon: Locator;
+  private readonly searchResultContactName:Locator;
 
-    constructor(page: Page) {
-        super(page)
-        this.createContactButton=page.locator('a[title="Ctrl+Space"]');
-        this.searchTextBox=page.locator('//input[@class="form-control text-filter"]');
-        this.searchSymbol=page.locator('button[data-action="search"]')
-        
-    }
+  constructor(page: Page) {
+    super(page);
+    this.createContactButton = page.locator('a[title="Ctrl+Space"]');
+    this.searchTextBox = page.locator('input[data-name="textFilter"]');
+    this.searchIcon = page.locator('button[data-action="search"]');
+    this.searchResultContactName = page.locator('td[data-name="name"]');
+  }
 
-    async clickCreateContactButton() {
-        await this.clickelement(this.createContactButton);
-      }
+  async clickCreateContactButton() {
+    await this.clickelement(this.createContactButton);
+  }
+
+  async enterNameOfContact(nameofContact: string) {
+    await this.fillField(this.searchTextBox, nameofContact);
+  }
+
+  async clickSearchIcon() {
+    await this.clickelement(this.searchIcon);
+  }
+
+  async getSearchResultCount(): Promise<number> {
+    return await this.getElementCount(this.searchResultContactName);
+  }
+
+  async getSearchResultContactName(): Promise<string> {
+    return await this.getElementText(this.searchResultContactName);
+  }
 }
-    

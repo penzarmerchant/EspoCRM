@@ -17,7 +17,7 @@ export class CreateContactPage extends BasePage {
   private readonly firstNameTextBox: Locator;
   private readonly lastNameTextBox: Locator;
   private readonly accountsDropDown: Locator;
-  private readonly accountName: Locator;
+  private readonly firstAccountCheckbox: Locator;
   private readonly emailTextBox: Locator;
   private readonly phoneNumberTextBox: Locator;
   private readonly streetTextBox: Locator;
@@ -31,6 +31,8 @@ export class CreateContactPage extends BasePage {
   private readonly saveButton: Locator;
   private readonly assignedUser: Locator;
   private readonly teams: Locator;
+  private readonly selectAccountButton:Locator;
+  private readonly nameErrorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -42,7 +44,7 @@ export class CreateContactPage extends BasePage {
     this.firstNameTextBox = page.locator('input[data-name="firstName"]');
     this.lastNameTextBox = page.locator('input[data-name="lastName"]');
     this.accountsDropDown = page.locator('(//button[@data-action="selectLink"])[1]');
-    this.accountName = page.locator('a[data-id="5f5f1fcec41c41354"]');
+    this.firstAccountCheckbox = page.locator('table>tbody>tr:nth-child(1)>td[data-name="r-checkbox"]');
     this.emailTextBox = page.locator('input[type="email"]');
     this.phoneNumberTextBox = page.locator('input[type="input"]');
     this.streetTextBox = page.locator('textarea[data-name="addressStreet"]');
@@ -55,6 +57,8 @@ export class CreateContactPage extends BasePage {
     this.saveButton = page.locator('button[data-name="save"]');
     this.assignedUser = page.locator('(//button[@title="Select"])[2]');
     this.teams = page.locator('(//button[@title="Select"])[3]');
+    this.selectAccountButton=page.locator('button[data-name="select"]');
+    this.nameErrorMessage = page.locator('#notification');
 
   }
 
@@ -82,8 +86,9 @@ export class CreateContactPage extends BasePage {
     await this.clickelement(this.accountsDropDown);
   }
 
-  async clickAccountName() {
-    await this.clickelement(this.accountName);
+  async clickFirstAccountName() {
+    await this.clickelement(this.firstAccountCheckbox); 
+    await this.clickelement(this.selectAccountButton);
   }
 
   async enterEmail(email: string) {
@@ -143,7 +148,7 @@ export class CreateContactPage extends BasePage {
     await this.enterFirstName(espoCRM.firstName);
     await this.enterlastName(espoCRM.lastName);
     await this.clickAccountsDropDown();
-    await this.clickAccountName();
+    await this.clickFirstAccountName();
     await this.enterEmail(espoCRM.email);
     await this.enterPhoneNumber(espoCRM.phoneNumber);
     await this.enterStreet(espoCRM.street);
@@ -158,4 +163,9 @@ export class CreateContactPage extends BasePage {
     await this.teamsContactPage.clickSales();
     await this.clickSaveButton();
   }
+
+  async getNameErrorText(): Promise<string> {
+    return await this.getElementText(this.nameErrorMessage);
+  }
+
 }

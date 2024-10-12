@@ -1,18 +1,24 @@
-import {Page,Locator, expect} from '@playwright/test'
+import {Page,Locator,} from '@playwright/test'
 import BasePage from './basepage';
 
 export class ContactInfoPage extends BasePage
 {
     private readonly contactNameTitle:Locator;
+    private readonly overviewText:Locator;
 
     constructor(page: Page) {
         super(page);
         this.contactNameTitle = page.locator('(//div[@class="breadcrumb-item"])[2]');
+        this.overviewText=page.locator('//h4[@class="panel-title"][contains(text(),"Overview")]')
     }
-
     
-
+    async waitForContactInfoPageToLoad():Promise<void>{
+        await this.waitForPageToLoad();
+        await this.waitForElementVisible(this.overviewText);
+    }
+    
     async getContactTitleText(): Promise<string> {
+        await this.waitForContactInfoPageToLoad();
         return await this.getElementText(this.contactNameTitle);
       }
 }

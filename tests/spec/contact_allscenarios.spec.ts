@@ -1,17 +1,58 @@
-import { test,expect} from '@fixtures/pomFixture';
-import * as espoCRM from '@testData/espoCRM.json';
+import { test, expect } from "@fixtures/pomFixture";
+import fs from "fs/promises";
+import { EspoCRM } from "@testData/espoCRMTypes";
+
+let espoCRM;
+const nameErrorMessage: string = "Not valid";
 
 test.beforeEach(async ({ page, loginpage }) => {
-    await page.goto('/');
-    await loginpage.clickloginButton();
+  await page.goto("/");
+  await loginpage.clickloginButton();
 });
 
-test('Verify creation of a new contact', async ({homepage, contactpage,createContactPage,contactInfoPage }) => {
+test.describe.serial("Contact Creation & Verification", () => {
+  test("Create New Contact", async ({
+    page,
+    homepage,
+    createContactPage,
+    contactpage,
+    contactInfoPage,
+  }) => {
     await homepage.clickcontactButton();
     await contactpage.clickCreateContactButton();
     await createContactPage.createCompleteContact();
-    expect(await contactInfoPage.getContactTitleText()).toEqual(`${espoCRM.firstName} ${espoCRM.lastName}`);
+    espoCRM = JSON.parse(
+      await fs.readFile("testData/espoCRM.json", "utf-8")
+    ) as EspoCRM;
+    expect(await contactInfoPage.getContactTitleText()).toEqual(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
+  });
+
+  test("Search by name of contact", async ({ homepage, contactpage }) => {
+    await homepage.clickcontactButton();
+    await contactpage.enterNameOfContact(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
+    await contactpage.clickSearchIcon();
+    expect(await contactpage.getSearchResultContactName()).toEqual(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
+    expect(await contactpage.getSearchResultCount()).toEqual(1);
+  });
+
 });
 
-// test('Verify search functionality in the "Contacts" module', async ({ homepage, contactpage, createContact,assignedUser,teamsContact }) => {
-// });
+test("Verify Mandatory Fields", async ({
+    page,
+    loginpage,
+    homepage,
+    contactpage,
+    createContactPage
+  }) => {
+    await homepage.clickcontactButton();
+    await contactpage.clickCreateContactButton();
+    await createContactPage.clickSaveButton();
+    const errorText = await createContactPage.getNameErrorText();
+    expect(errorText).toEqual(nameErrorMessage);
+  });

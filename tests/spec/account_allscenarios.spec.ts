@@ -1,5 +1,4 @@
-import { test } from "@fixtures/pomFixture";
-import { expect } from "@playwright/test";
+import { test,expect} from "@fixtures/pomFixture";
 import fs from "fs/promises";
 import { EspoCRM } from "@testData/espoCRMTypes";
 
@@ -20,7 +19,7 @@ test.describe.serial("Account Creation & Verification", () => {
     expect(await accountPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
   });
 
-  test("Search name of account as per the name created", async ({homepage,accountPage,}) => {
+  test("Search by name of account", async ({homepage,accountPage,}) => {
     await homepage.clickaccountButton();
     await accountPage.enterNameOfAccount(espoCRM.nameofAccount);
     await accountPage.clickSearchIcon();

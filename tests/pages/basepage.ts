@@ -24,7 +24,7 @@ export default class BasePage {
 
   async waitForElementVisible(element: Locator | string,maxTimeout?:number) {
     if (typeof element === "string") {
-      await this.page.waitForSelector(element, { state: "visible" });
+      await this.page.waitForSelector(element, { state: "visible",timeout:maxTimeout});
     } else {
       await element.waitFor({ state: "visible",timeout:maxTimeout});
     }
@@ -43,5 +43,10 @@ export default class BasePage {
   async getElementCount(element: Locator,maxTimeout?:number): Promise<number> {
     this.waitForElementVisible(element,maxTimeout);
     return await element.count();
+  }
+
+  async waitForPageToLoad():Promise<void>{
+    await this.page.waitForLoadState("networkidle");
+    await this.page.waitForTimeout(1000);
   }
 }
