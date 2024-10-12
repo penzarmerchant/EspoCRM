@@ -8,7 +8,7 @@ export class TeamsContactPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.teamsSelection = page.locator('a[title="Sales"]');
+    this.teamsSelection = page.locator('td[data-name="name"] a[href="#Team/view/6128977b8cc8163d5"]');
     this.selectButton = page.locator('button[data-name="select"]');
     this.typeofTeams = page.locator('//input[@data-id="6128977b8cc8163d5"]');
   }

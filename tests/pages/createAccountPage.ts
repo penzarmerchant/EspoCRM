@@ -1,10 +1,11 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
-import * as espoCRM from "@testData/espoCRM.json";
+import * as espoCRMStatic from "@testData/espoCRM.json";
 import { generateMockData } from "@testData/generateTestData";
 import fs from "fs/promises";
 import { AssignedUserPage } from "./assignedUserPage";
 import { TeamsPage } from "./teamsPage";
+import { EspoCRM } from "@testData/espoCRMTypes";
 
 export class CreateAccountPage extends BasePage {
   private readonly assignedUserPage: AssignedUserPage;
@@ -155,16 +156,17 @@ export class CreateAccountPage extends BasePage {
   async createCompleteAccount() {
     await generateMockData("testData/espoCRM.json");
     await new Promise((resolve) => setTimeout(resolve, 500));
+    const espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
     await this.enterName(espoCRM.nameofAccount);
     await this.enterWebsite(espoCRM.website);
-    await this.enterEmail(espoCRM.email1);
-    await this.enterPhone(espoCRM.phoneAccount);
-    await this.enterBillingAddressStreet(espoCRM.streetBillingAddress);
+    await this.enterEmail(espoCRM.email);
+    await this.enterPhone(espoCRM.phoneNumber);
+    await this.enterBillingAddressStreet(espoCRM.streetAddress);
     await this.enterBillingAddressCity();
     await this.enterBillingCity();
-    await this.enterbillingAddressCounty(espoCRM.county1);
-    await this.enterbillingPostalCode(espoCRM.postalCode1);
-    await this.enterbillingAddressCountry(espoCRM.country1);
+    await this.enterbillingAddressCounty(espoCRM.county);
+    await this.enterbillingPostalCode(espoCRM.postalCode);
+    await this.enterbillingAddressCountry(espoCRM.country);
     await this.clickCopyButton();
     await this.enterAssignedUser();
     await this.assignedUserPage.clickAssignedUserType();
@@ -175,7 +177,6 @@ export class CreateAccountPage extends BasePage {
     await this.selectAccountType();
     await this.clickIndustry();
     await this.selectIndustryType();
-    await this.enterDescription(espoCRM.Description);
     await this.clickSave();
   }
 }

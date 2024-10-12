@@ -1,8 +1,16 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
+import { generateMockData } from "@testData/generateTestData";
+import * as espoCRM from "@testData/espoCRM.json";
+import fs from "fs/promises";
+import { AssignedUserPage } from "./assignedUserPage";
+import  {TeamsContactPage} from "./teamsContactPage";
+import { EspoCRM } from "@testData/espoCRMTypes";
 
 export class CreateContactPage extends BasePage {
   
+  private readonly assignedUserPage: AssignedUserPage;
+  private readonly teamsContactPage:TeamsContactPage;
   private readonly createContactButton: Locator;
   private readonly salutationMr: Locator;
   private readonly salutationdropdown: Locator;
@@ -26,16 +34,14 @@ export class CreateContactPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.createContactButton = page.locator('a[title="Ctrl+Space"]');
+    this.assignedUserPage=new AssignedUserPage(page);
+    this.teamsContactPage=new TeamsContactPage(page);
+    this.createContactButton = page.locator('a[href="#Contact/create',{hasText:"Contact"});
     this.salutationMr = page.locator('[data-value="Mr."]');
-    this.salutationdropdown = page.locator(
-      '(//div[contains(@class,"selectize-input items")])[1]'
-    );
+    this.salutationdropdown = page.locator('(//div[contains(@class,"selectize-input items")])[1]');
     this.firstNameTextBox = page.locator('input[data-name="firstName"]');
     this.lastNameTextBox = page.locator('input[data-name="lastName"]');
-    this.accountsDropDown = page.locator(
-      '(//button[@data-action="selectLink"])[1]'
-    );
+    this.accountsDropDown = page.locator('(//button[@data-action="selectLink"])[1]');
     this.accountName = page.locator('a[data-id="5f5f1fcec41c41354"]');
     this.emailTextBox = page.locator('input[type="email"]');
     this.phoneNumberTextBox = page.locator('input[type="input"]');
@@ -43,14 +49,13 @@ export class CreateContactPage extends BasePage {
     this.cityTextBox = page.locator('input[data-name="addressCity"]');
     this.countyTextBox = page.locator('input[data-name="addressState"]');
     this.citySelection = page.locator('//div[normalize-space()="London"]');
-    this.postalCodeTextBox = page.locator(
-      'input[data-name="addressPostalCode"]'
-    );
+    this.postalCodeTextBox = page.locator('input[data-name="addressPostalCode"]');
     this.countryTextBox = page.locator('input[data-name="addressCountry"]');
     this.description = page.locator('textarea[data-name="description"]');
     this.saveButton = page.locator('button[data-name="save"]');
     this.assignedUser = page.locator('(//button[@title="Select"])[2]');
     this.teams = page.locator('(//button[@title="Select"])[3]');
+
   }
 
   async clickCreateContactButton() {
@@ -127,5 +132,30 @@ export class CreateContactPage extends BasePage {
 
   async enterTeams() {
     await this.clickelement(this.teams);
+  }
+
+  async createCompleteContact() {
+    await generateMockData("testData/espoCRM.json");
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    const espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
+    await this.clickSalutationDropdown();
+    await this.clickSalutationMr();
+    await this.enterFirstName(espoCRM.firstName);
+    await this.enterlastName(espoCRM.lastName);
+    await this.clickAccountsDropDown();
+    await this.clickAccountName();
+    await this.enterEmail(espoCRM.email);
+    await this.enterPhoneNumber(espoCRM.phoneNumber);
+    await this.enterStreet(espoCRM.street);
+    await this.enterCity();
+    await this.selectCity();
+    await this.enterPostalCode(espoCRM.postalCode);
+    await this.enterCountry(espoCRM.country);
+    await this.enterCounty(espoCRM.county);
+    await this.enterAssignedUser();
+    await this.assignedUserPage.clickAssignedUserType();
+    await this.enterTeams();
+    await this.teamsContactPage.clickSales();
+    await this.clickSaveButton();
   }
 }

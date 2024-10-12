@@ -3,14 +3,16 @@ import BasePage from './basepage';
 
 export class ContactInfoPage extends BasePage
 {
-    private readonly contactText:Locator;
+    private readonly contactNameTitle:Locator;
 
     constructor(page: Page) {
         super(page);
-        this.contactText = page.locator('.font-size-flexible.title');
+        this.contactNameTitle = page.locator('(//div[@class="breadcrumb-item"])[2]');
     }
 
-    async textVisible(){
-        await expect(this.contactText).toHaveText('Ramesh Kumar')
-    }
+    
+
+    async getContactTitleText(): Promise<string> {
+        return await this.getElementText(this.contactNameTitle);
+      }
 }

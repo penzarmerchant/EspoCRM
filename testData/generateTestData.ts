@@ -8,12 +8,14 @@ export async function generateMockData(filePath: string): Promise<any> {
     const fakedata = {
       nameofAccount: faker.company.name(),
       website: faker.internet.domainName(),
-      email1: faker.internet.email(),
-      phoneAccount: faker.phone.number(),
-      streetBillingAddress: faker.location.streetAddress(),
-      postalCode1: faker.location.zipCode(),
-      county1: faker.location.county(),
-      country1: faker.location.country()
+      email: faker.internet.email(),
+      phoneNumber: faker.phone.number(),
+      streetAddress: faker.location.streetAddress(),
+      postalCode: faker.location.zipCode(),
+      county: faker.location.county(),
+      country: faker.location.country(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
     };
     const updatedData = { ...data, ...fakedata };
     await fs.writeFile(filePath, JSON.stringify(updatedData, null, 2));
