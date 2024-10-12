@@ -1,8 +1,10 @@
 import { test } from "@fixtures/pomFixture";
 import { expect } from "@playwright/test";
-import * as espoCRM from "@testData/espoCRM.json";
+import fs from "fs/promises";
+import { EspoCRM } from "@testData/espoCRMTypes";
 
 const nameErrorMessage: string = "Not valid";
+let espoCRM;
 
 test.describe.serial("Account Creation & Verification", () => {
   test.beforeEach(async ({ page, loginpage }) => {
@@ -14,6 +16,7 @@ test.describe.serial("Account Creation & Verification", () => {
     await homepage.clickaccountButton();
     await accountPage.clickCreateAccountButton();
     await createAccountPage.createCompleteAccount();
+    espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
     expect(await accountPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
   });
 
