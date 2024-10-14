@@ -1,7 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
 
-
 export class AccountPage extends BasePage {
   private readonly createAccountButton: Locator;
   private readonly accountNameTitle: Locator;

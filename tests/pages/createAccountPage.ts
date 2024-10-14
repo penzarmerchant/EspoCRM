@@ -1,6 +1,5 @@
 import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
-import * as espoCRMStatic from "@testData/espoCRM.json";
 import { generateMockData } from "@testData/generateTestData";
 import fs from "fs/promises";
 import { AssignedUserPage } from "./assignedUserPage";
@@ -47,11 +46,8 @@ export class CreateAccountPage extends BasePage {
       'input[data-name="billingAddressCity"]'
     );
     this.countyBillingAddTextBox = page.locator(
-      'input[data-name="billingAddressState"]'
-    );
-    this.postalCodeBillingAddTextBox = page.locator(
-      'input[data-name="billingAddressPostalCode"]'
-    );
+      'input[data-name="billingAddressState"]');
+    this.postalCodeBillingAddTextBox = page.locator('input[data-name="billingAddressPostalCode"]');
     this.countryBillingAddTextBox = page.locator('input[data-name="billingAddressCountry"]'); 
     this.typeTextBox = page.locator('div[data-name="type"]:nth-child(2)');
     this.industryTextBox = page.locator('(//div[@data-name="industry"])[2]');

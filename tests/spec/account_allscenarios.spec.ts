@@ -11,7 +11,7 @@ test.describe.serial("Account Creation & Verification", () => {
     await loginpage.clickloginButton();
   });
 
-  test("Create New Account", async ({ homepage, accountPage,createAccountPage }) => {
+  test("Create New Account", async ({ homepage, accountPage,createAccountPage}) => {
     await homepage.clickaccountButton();
     await accountPage.clickCreateAccountButton();
     await createAccountPage.createCompleteAccount();
@@ -19,7 +19,7 @@ test.describe.serial("Account Creation & Verification", () => {
     expect(await accountPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
   });
 
-  test("Search by name of account", async ({homepage,accountPage,}) => {
+  test("Search by name of account", async ({homepage,accountPage}) => {
     await homepage.clickaccountButton();
     await accountPage.enterNameOfAccount(espoCRM.nameofAccount);
     await accountPage.clickSearchIcon();
@@ -28,13 +28,7 @@ test.describe.serial("Account Creation & Verification", () => {
   });
 });
 
-test("Verify Mandatory Fields", async ({
-  page,
-  loginpage,
-  homepage,
-  accountPage,
-  createAccountPage,
-}) => {
+test("Verify Mandatory Fields", async ({page,loginpage,homepage,accountPage,createAccountPage}) => {
   await page.goto("/");
   await loginpage.clickloginButton();
   await homepage.clickaccountButton();

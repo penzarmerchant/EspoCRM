@@ -12,7 +12,6 @@ test.beforeEach(async ({ page, loginpage }) => {
 
 test.describe.serial("Contact Creation & Verification", () => {
   test("Create New Contact", async ({
-    page,
     homepage,
     createContactPage,
     contactpage,
@@ -24,9 +23,7 @@ test.describe.serial("Contact Creation & Verification", () => {
     espoCRM = JSON.parse(
       await fs.readFile("testData/espoCRM.json", "utf-8")
     ) as EspoCRM;
-    expect(await contactInfoPage.getContactTitleText()).toEqual(
-      `${espoCRM.firstName} ${espoCRM.lastName}`
-    );
+    expect(await contactInfoPage.getContactTitleText()).toEqual(`${espoCRM.firstName} ${espoCRM.lastName}`);
   });
 
   test("Search by name of contact", async ({ homepage, contactpage }) => {
@@ -40,19 +37,16 @@ test.describe.serial("Contact Creation & Verification", () => {
     );
     expect(await contactpage.getSearchResultCount()).toEqual(1);
   });
-
 });
 
 test("Verify Mandatory Fields", async ({
-    page,
-    loginpage,
-    homepage,
-    contactpage,
-    createContactPage
-  }) => {
-    await homepage.clickcontactButton();
-    await contactpage.clickCreateContactButton();
-    await createContactPage.clickSaveButton();
-    const errorText = await createContactPage.getNameErrorText();
-    expect(errorText).toEqual(nameErrorMessage);
-  });
+  homepage,
+  contactpage,
+  createContactPage,
+}) => {
+  await homepage.clickcontactButton();
+  await contactpage.clickCreateContactButton();
+  await createContactPage.clickSaveButton();
+  const errorText = await createContactPage.getNameErrorText();
+  expect(errorText).toEqual(nameErrorMessage);
+});
