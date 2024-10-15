@@ -2,143 +2,130 @@ import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
 import { generateMockData } from "@testData/generateTestData";
 import fs from "fs/promises";
-import { AssignedUserPage } from "./assignedUserPage";
-import { TeamsPage } from "./teamsPage";
 import { EspoCRM } from "@testData/espoCRMTypes";
+import * as constantsData from "@testData/constants.json"
 
 export class CreateAccountPage extends BasePage {
-  private readonly assignedUserPage: AssignedUserPage;
-  private readonly teamsPage: TeamsPage;
   private readonly nameTextBox: Locator;
   private readonly websiteTextBox: Locator;
   private readonly emailTextBox: Locator;
-  private readonly phoneTextBox: Locator;
-  private readonly streetBillingAddTextBox: Locator;
-  private readonly cityBillingAddTextBox: Locator;
-  private readonly countyBillingAddTextBox: Locator;
-  private readonly postalCodeBillingAddTextBox: Locator;
-  private readonly countryBillingAddTextBox: Locator;
-  private readonly typeTextBox: Locator;
-  private readonly industryTextBox: Locator;
+  private readonly phoneNumberTextBox: Locator;
+  private readonly streetTextBox: Locator;
+  private readonly cityDropDown: Locator;
+  private readonly cityDropdownValues:Locator;
+  private readonly countyTextBox: Locator;
+  private readonly postalTextBox: Locator;
+  private readonly countryTextBox: Locator;
+  private readonly typeDropDown: Locator;
+  private readonly typeDropDownValues: Locator;
+  private readonly industryDropDown: Locator;
+  private readonly industryDropDownValues: Locator;
   private readonly descriptionTextBox: Locator;
-  private readonly assignedUser: Locator;
-  private readonly teams: Locator;
-  private readonly selectCity: Locator;
-  private readonly citySelection: Locator;
-  private readonly typeofAccount: Locator;
+  private readonly assignedUserDropDown: Locator;
+  private readonly assignedUserDropDownValues: Locator;
+  private readonly teamsDropDown: Locator;
+  private readonly teamsDropDownValues: Locator;
   private readonly copyButton: Locator;
   private readonly saveButton: Locator;
-  private readonly typeofIndustry: Locator;
   private readonly nameErrorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.assignedUserPage=new AssignedUserPage(page);
-    this.teamsPage=new TeamsPage(page)
     this.nameTextBox = page.locator('input[data-name="name"]');
     this.websiteTextBox = page.locator('input[data-name="website"]');
     this.emailTextBox = page.locator('input[type="email"]');
-    this.phoneTextBox = page.locator('.phone-number');
-    this.streetBillingAddTextBox = page.locator(
-      'textarea[data-name="billingAddressStreet"]'
+    this.phoneNumberTextBox = page.locator(".phone-number");
+    this.streetTextBox = page.locator('[data-name="billingAddressStreet"]');
+    this.cityDropDown = page.locator(
+      '[data-name="billingAddressCity"]'
     );
-    this.cityBillingAddTextBox = page.locator(
-      'input[data-name="billingAddressCity"]'
+    this.cityDropdownValues=page.locator('.autocomplete-suggestions>.autocomplete-suggestion');
+    this.countyTextBox = page.locator(
+      '[data-name="billingAddressState"]'
     );
-    this.countyBillingAddTextBox = page.locator(
-      'input[data-name="billingAddressState"]');
-    this.postalCodeBillingAddTextBox = page.locator('input[data-name="billingAddressPostalCode"]');
-    this.countryBillingAddTextBox = page.locator('input[data-name="billingAddressCountry"]'); 
-    this.typeTextBox = page.locator('div[data-name="type"]:nth-child(2)');
-    this.industryTextBox = page.locator('(//div[@data-name="industry"])[2]');
+    this.postalTextBox = page.locator(
+      '[data-name="billingAddressPostalCode"]'
+    );
+    this.countryTextBox = page.locator(
+      '[data-name="billingAddressCountry"]'
+    );
+    this.typeDropDown = page.locator('div[data-name="type"][class="field"]');
+    this.typeDropDownValues=page.locator('.selectize-dropdown-content>.option')
+    this.industryDropDown = page.locator(
+      'div[data-name="industry"][class="field"]'
+    );
+    this.industryDropDownValues=page.locator('.selectize-dropdown-content>.option');
     this.descriptionTextBox = page.locator('textarea[data-name="description"]');
-    this.assignedUser = page.locator('(//button[@title="Select"])[1]');
-    this.teams = page.locator('(//button[@title="Select"])[2]');
-    this.selectCity = page.locator('//div[normalize-space(text())="London"]');
-    this.typeofAccount = page.locator('.option',{hasText:"Partner"});
-    this.copyButton = page.locator('button[class="btn btn-default btn-sm"]');
+    this.assignedUserDropDown = page.locator('input[data-name="assignedUserName"]');
+    this.assignedUserDropDownValues=page.locator('.autocomplete-suggestions>.autocomplete-suggestion')
+    this.teamsDropDown = page.locator('div[data-name="teams"] input');
+    this.teamsDropDownValues=page.locator('.autocomplete-suggestions>.autocomplete-suggestion');
+    this.copyButton = page.locator("button", { hasText: "Copy Billing" });
     this.saveButton = page.locator('button[data-name="save"]');
-    this.typeofIndustry = page.locator('//div[normalize-space()="Automotive"]');
-    this.nameErrorMessage = page.locator('#notification');
+    this.nameErrorMessage = page.locator("#notification");
   }
 
-  async enterName(name: string) {
-    await this.fillField(this.nameTextBox, name);
+  async enterName(nameText: string) {
+    await this.fillField(this.nameTextBox, nameText);
   }
 
-  async enterWebsite(website: string) {
-    await this.fillField(this.websiteTextBox, website);
+  async enterWebsite(websiteText: string) {
+    await this.fillField(this.websiteTextBox, websiteText);
   }
 
-  async enterEmail(email: string) {
-    await this.fillField(this.emailTextBox, email);
+  async enterEmail(emailText: string) {
+    await this.fillField(this.emailTextBox, emailText);
   }
 
-  async enterPhone(phoneNumber: string) {
-    await this.fillField(this.phoneTextBox, phoneNumber);
+  async enterPhoneNumber(phoneNumberText: string) {
+    await this.fillField(this.phoneNumberTextBox, phoneNumberText);
   }
 
-  async enterBillingAddressStreet(billingAddressStreet: string) {
-    await this.fillField(this.streetBillingAddTextBox, billingAddressStreet);
+  async enterStreet(streetText: string) {
+    await this.fillField(this.streetTextBox, streetText);
   }
 
-  async enterBillingAddressCity() {
-    await this.clickelement(this.cityBillingAddTextBox);
+  async enterCity(cityText:string) {
+    await this.selectDynamicDropDown(this.cityDropDown,this.cityDropdownValues,cityText);
   }
 
-  async enterbillingAddressCounty(billingAddressCounty: string) {
-    await this.fillField(this.countyBillingAddTextBox, billingAddressCounty);
+  async enterCounty(countyText: string) {
+    await this.fillField(this.countyTextBox, countyText);
   }
 
-  async enterbillingPostalCode(billingAddresspostalCode: string) {
+  async enterPostalCode(postalCodeText: string) {
     await this.fillField(
-      this.postalCodeBillingAddTextBox,
-      billingAddresspostalCode
+      this.postalTextBox,
+      postalCodeText
     );
   }
 
-  async enterbillingAddressCountry(billingAddressCountry: string) {
-    await this.fillField(this.countryBillingAddTextBox, billingAddressCountry);
+  async enterCountry(countryText: string) {
+    await this.fillField(this.countryTextBox, countryText);
   }
 
-  async enterTypeofAccount() {
-    await this.clickelement(this.typeTextBox);
+  async enterType(typeText:string) {
+      await this.selectDynamicDropDown(this.typeDropDown,this.typeDropDownValues,typeText);
   }
 
-  async enterIndustryType() {
-    await this.clickelement(this.industryTextBox);
+  async enterIndustry(industryText:string) {
+    await this.selectDynamicDropDown(this.industryDropDown,this.industryDropDownValues,industryText)
   }
 
-  async enterDescription(description: string) {
-    await this.fillField(this.descriptionTextBox, description);
+  async enterDescription(descriptionText: string) {
+    await this.fillField(this.descriptionTextBox, descriptionText);
   }
 
-  async enterAssignedUser() {
-    await this.clickelement(this.assignedUser);
+  async enterAssignedUser(userText:string) {
+    await this.selectDynamicDropDown(this.assignedUserDropDown,this.assignedUserDropDownValues,userText);
   }
 
-  async enterTeams() {
-    await this.clickelement(this.teams);
-  }
-
-  async enterBillingCity() {
-    await this.clickelement(this.selectCity);
-  }
-
-  async selectAccountType() {
-    await this.clickelement(this.typeofAccount);
+  async enterTeams(teamsText:string) {
+    await this.selectDynamicDropDown(this.teamsDropDown,this.teamsDropDownValues,teamsText);
   }
 
   async clickCopyButton() {
     await this.clickelement(this.copyButton);
-  }
-
-  async clickIndustry() {
-    await this.clickelement(this.industryTextBox);
-  }
-
-  async selectIndustryType() {
-    await this.clickelement(this.typeofIndustry);
   }
 
   async clickSave() {
@@ -152,27 +139,22 @@ export class CreateAccountPage extends BasePage {
   async createCompleteAccount() {
     await generateMockData("testData/espoCRM.json");
     await new Promise((resolve) => setTimeout(resolve, 500));
-    const espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
+    const espoCRM = JSON.parse(
+      await fs.readFile("testData/espoCRM.json", "utf-8")) as EspoCRM;
     await this.enterName(espoCRM.nameofAccount);
     await this.enterWebsite(espoCRM.website);
     await this.enterEmail(espoCRM.email);
-    await this.enterPhone(espoCRM.phoneNumber);
-    await this.enterBillingAddressStreet(espoCRM.streetAddress);
-    await this.enterBillingAddressCity();
-    await this.enterBillingCity();
-    await this.enterbillingAddressCounty(espoCRM.county);
-    await this.enterbillingPostalCode(espoCRM.postalCode);
-    await this.enterbillingAddressCountry(espoCRM.country);
+    await this.enterPhoneNumber(espoCRM.phoneNumber);
+    await this.enterStreet(espoCRM.streetAddress);
+    await this.enterCity(constantsData.city);
+    await this.enterCounty(espoCRM.county);
+    await this.enterPostalCode(espoCRM.postalCode);
+    await this.enterCountry(espoCRM.country);
     await this.clickCopyButton();
-    await this.enterAssignedUser();
-    await this.assignedUserPage.clickAssignedUserType();
-    await this.enterTeams();
-    await this.teamsPage.selectTeams();
-    await this.teamsPage.clickSelect();
-    await this.enterTypeofAccount();
-    await this.selectAccountType();
-    await this.clickIndustry();
-    await this.selectIndustryType();
+    await this.enterAssignedUser(constantsData.assignedUser);
+    await this.enterTeams(constantsData.teams);
+    await this.enterType(constantsData.type);
+    await this.enterIndustry(constantsData.industry)
     await this.clickSave();
   }
 }

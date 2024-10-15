@@ -2,14 +2,14 @@ import { Page, Locator } from "@playwright/test";
 import BasePage from "./basepage";
 
 export class AssignedUserPage extends BasePage {
-  private readonly userSelection: Locator;
+  private readonly firstUser: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.userSelection = page.locator('td[data-name="name"] a[href="#User/view/1"]');
+    this.firstUser = page.locator('(//td[@data-name="name"]/child::a)[1]');
   }
 
-  async clickAssignedUserType() {
-    await this.clickelement(this.userSelection);
+  async clickFirstUser() {
+    await this.clickelement(this.firstUser);
   }
 }

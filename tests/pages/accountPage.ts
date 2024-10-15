@@ -3,15 +3,13 @@ import BasePage from "./basepage";
 
 export class AccountPage extends BasePage {
   private readonly createAccountButton: Locator;
-  private readonly accountNameTitle: Locator;
   private readonly searchBarInputBox: Locator;
   private readonly searchIcon: Locator;
   private readonly searchResultAccountName: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.createAccountButton = page.locator('a[href="#Account/create"]',{hasText:"Create Account"});
-    this.accountNameTitle = page.locator(".title");
+    this.createAccountButton = page.locator('a[data-name="create"]');
     this.searchBarInputBox = page.locator('input[data-name="textFilter"]');
     this.searchIcon = page.locator('button[title="Search"]');
     this.searchResultAccountName = page.locator('td[data-name="name"]');
@@ -19,10 +17,6 @@ export class AccountPage extends BasePage {
 
   async clickCreateAccountButton() {
     await this.clickelement(this.createAccountButton);
-  }
-
-  async getAccountTitleText(): Promise<string> {
-    return await this.getElementText(this.accountNameTitle);
   }
 
   async enterNameOfAccount(nameofAccount: string) {
@@ -40,6 +34,4 @@ export class AccountPage extends BasePage {
   async getSearchResultAccountName(): Promise<string> {
     return await this.getElementText(this.searchResultAccountName);
   }
-
-  
 }

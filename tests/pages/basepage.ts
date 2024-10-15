@@ -49,4 +49,17 @@ export default class BasePage {
     await this.page.waitForLoadState("networkidle");
     await this.page.waitForTimeout(1000);
   }
+
+  async selectStaticDropDown(element:Locator,dropDownText:string):Promise<void>{
+      await element.selectOption({
+        label:dropDownText
+      })
+  }
+
+  async selectDynamicDropDown(dropdownLocator:Locator,dropdownValuesLocator:Locator,dropDownText:string):Promise<void>{
+    await dropdownLocator.click();
+    await dropdownValuesLocator.waitFor({state:'visible'})
+    const optionLocator= dropdownValuesLocator.locator(`text=${dropDownText}`)
+    await optionLocator.click();
+  }
 }

@@ -23,18 +23,16 @@ test.describe.serial("Contact Creation & Verification", () => {
     espoCRM = JSON.parse(
       await fs.readFile("testData/espoCRM.json", "utf-8")
     ) as EspoCRM;
-    expect(await contactInfoPage.getContactTitleText()).toEqual(`${espoCRM.firstName} ${espoCRM.lastName}`);
+    expect(await contactInfoPage.getContactTitleText()).toEqual(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
   });
 
   test("Search by name of contact", async ({ homepage, contactpage }) => {
     await homepage.clickcontactButton();
-    await contactpage.enterNameOfContact(
-      `${espoCRM.firstName} ${espoCRM.lastName}`
-    );
+    await contactpage.enterNameOfContact(`${espoCRM.firstName} ${espoCRM.lastName}`);
     await contactpage.clickSearchIcon();
-    expect(await contactpage.getSearchResultContactName()).toEqual(
-      `${espoCRM.firstName} ${espoCRM.lastName}`
-    );
+    expect(await contactpage.getSearchResultContactName()).toEqual(`${espoCRM.firstName} ${espoCRM.lastName}`);
     expect(await contactpage.getSearchResultCount()).toEqual(1);
   });
 });

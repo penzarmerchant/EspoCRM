@@ -11,12 +11,12 @@ test.describe.serial("Account Creation & Verification", () => {
     await loginpage.clickloginButton();
   });
 
-  test("Create New Account", async ({ homepage, accountPage,createAccountPage}) => {
+  test("Create New Account", async ({ homepage, accountPage,createAccountPage,accountInfoPage}) => {
     await homepage.clickaccountButton();
     await accountPage.clickCreateAccountButton();
     await createAccountPage.createCompleteAccount();
     espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
-    expect(await accountPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
+    expect(await accountInfoPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
   });
 
   test("Search by name of account", async ({homepage,accountPage}) => {

@@ -9,9 +9,9 @@ export class ContactPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.createContactButton = page.locator('a[title="Ctrl+Space"]');
+    this.createContactButton = page.locator('a[data-name="create"]');
     this.searchTextBox = page.locator('input[data-name="textFilter"]');
-    this.searchIcon = page.locator('button[data-action="search"]');
+    this.searchIcon = page.locator('button[title="Search"]');
     this.searchResultContactName = page.locator('td[data-name="name"]');
   }
 
