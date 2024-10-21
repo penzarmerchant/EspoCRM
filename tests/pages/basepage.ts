@@ -58,8 +58,8 @@ export default class BasePage {
 
   async selectDynamicDropDown(dropdownLocator:Locator,dropdownValuesLocator:Locator,dropDownText:string):Promise<void>{
     await dropdownLocator.click();
-    await dropdownValuesLocator.waitFor({state:'visible'})
-    const optionLocator= dropdownValuesLocator.locator(`text=${dropDownText}`)
+    const optionLocator= dropdownValuesLocator.locator(`text=${dropDownText}`);
+    await optionLocator.waitFor({state:'visible'});
     await optionLocator.click();
   }
 }

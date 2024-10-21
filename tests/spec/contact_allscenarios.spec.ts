@@ -44,7 +44,7 @@ test("Verify Mandatory Fields", async ({
 }) => {
   await homepage.clickcontactButton();
   await contactpage.clickCreateContactButton();
-  await createContactPage.clickSaveButton();
+  await createContactPage.clickSave();
   const errorText = await createContactPage.getNameErrorText();
   expect(errorText).toEqual(nameErrorMessage);
 });

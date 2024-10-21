@@ -19,7 +19,7 @@ test.describe.serial("Account Creation & Verification", () => {
     expect(await accountInfoPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
   });
 
-  test("Search by name of account", async ({homepage,accountPage}) => {
+  test("Search by name of account", async ({page,homepage,accountPage}) => {
     await homepage.clickaccountButton();
     await accountPage.enterNameOfAccount(espoCRM.nameofAccount);
     await accountPage.clickSearchIcon();

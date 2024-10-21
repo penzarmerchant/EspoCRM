@@ -129,7 +129,7 @@ export class CreateContactPage extends BasePage {
     return await this.getElementText(this.nameErrorMessage);
   }
 
-  async createCompleteAccount() {
+  async createCompleteContact() {
     await generateMockData("testData/espoCRM.json");
     await new Promise((resolve) => setTimeout(resolve, 500));
     const espoCRM = JSON.parse(
