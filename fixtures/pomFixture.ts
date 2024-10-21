@@ -5,9 +5,6 @@ import { CreateContactPage } from "@pages/createContactPage";
 import { ContactPage } from "@pages/contactPage";
 import { AccountPage } from "@pages/accountPage";
 import { CreateAccountPage } from "@pages/createAccountPage";
-import { TeamsPage } from "@pages/teamsPage";
-import { AssignedUserPage } from "@pages/assignedUserPage";
-import { TeamsContactPage } from "@pages/teamsContactPage";
 import { ContactInfoPage } from "@pages/contactInfoPage";
 import { AccountInfoPage } from "@pages/accountInfoPage";
 
@@ -18,12 +15,8 @@ type pages = {
   contactpage: ContactPage;
   accountPage: AccountPage;
   createAccountPage: CreateAccountPage;
-  teamsPage: TeamsPage;
-  assignedUserPage: AssignedUserPage;
-  teamsContactPage: TeamsContactPage;
   contactInfoPage: ContactInfoPage;
   accountInfoPage:AccountInfoPage
-  
 };
 const testPages = baseTest.extend<pages>({
   homepage: async ({ page }, use) => {
@@ -46,20 +39,8 @@ const testPages = baseTest.extend<pages>({
     await use(new AccountPage(page));
   },
 
-  assignedUserPage: async ({ page }, use) => {
-    await use(new AssignedUserPage(page));
-  },
-
-  teamsPage: async ({ page }, use) => {
-    await use(new TeamsPage(page));
-  },
-
   createAccountPage: async ({ page }, use) => {
     await use(new CreateAccountPage(page));
-  },
-
-  teamsContactPage: async ({ page }, use) => {
-    await use(new TeamsContactPage(page));
   },
 
   contactInfoPage: async ({ page }, use) => {

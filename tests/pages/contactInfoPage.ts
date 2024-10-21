@@ -8,8 +8,8 @@ export class ContactInfoPage extends BasePage
 
     constructor(page: Page) {
         super(page);
-        this.contactNameTitle = page.locator('.title');
-        this.overviewText=page.locator('//h4[@class="panel-title"][contains(text(),"Overview")]')
+        this.contactNameTitle = page.locator('.header-title .title');
+        this.overviewText=page.locator('//h4[@class="panel-title"][contains(text(),"Overview")]');
     }
     
     async waitForContactInfoPageToLoad():Promise<void>{

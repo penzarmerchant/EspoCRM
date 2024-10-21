@@ -7,7 +7,7 @@ export class AccountInfoPage extends BasePage
 
     constructor(page: Page) {
         super(page);
-        this.accountNameTitle = page.locator(".title");
+        this.accountNameTitle = page.locator(".header-title .title");
     }
     
     async getAccountTitleText(): Promise<string> {

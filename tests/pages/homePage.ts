@@ -7,15 +7,15 @@ export class HomePage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.contactButton = page.locator('a[href="#Contact"]');
-    this.accountButton = page.locator('a[href="#Account"]');
+    this.accountButton = page.locator('li[data-name="Account"] a');
+    this.contactButton = page.locator('li[data-name="Contact"] a');
   }
 
-  async clickcontactButton() {
+  async clickContactButton() {
     await this.clickelement(this.contactButton);
   }
 
-  async clickaccountButton() {
+  async clickAccountButton() {
     await this.clickelement(this.accountButton);
   }
 }

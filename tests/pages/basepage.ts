@@ -9,15 +9,15 @@ export default class BasePage {
   }
 
   async navigateTo(url: string,maxTimeout?:number) {
-    await this.page.goto(url,{timeout:maxTimeout,waitUntil:'load'});
+    await this.page.goto(url,{timeout:maxTimeout,waitUntil:'networkidle'});
   }
 
-  async clickelement(element: Locator,maxTimeout?:number,isForceClick?:boolean) {
+  async clickelement(element: Locator,isForceClick?:boolean,maxTimeout?:number) {
     this.waitForElementVisible(element,maxTimeout);
     await element.click({force:isForceClick});
   }
 
-  async fillField(element: Locator, text: string,maxTimeout?:number,isForceFill?:boolean) {
+  async fillField(element: Locator, text: string,isForceFill?:boolean,maxTimeout?:number) {
     this.waitForElementVisible(element,maxTimeout);
     await element.fill(text,{timeout:maxTimeout,force:isForceFill});
   }

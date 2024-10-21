@@ -17,7 +17,7 @@ test.describe.serial("Contact Creation & Verification", () => {
     contactpage,
     contactInfoPage,
   }) => {
-    await homepage.clickcontactButton();
+    await homepage.clickContactButton();
     await contactpage.clickCreateContactButton();
     await createContactPage.createCompleteContact();
     espoCRM = JSON.parse(
@@ -29,10 +29,14 @@ test.describe.serial("Contact Creation & Verification", () => {
   });
 
   test("Search by name of contact", async ({ homepage, contactpage }) => {
-    await homepage.clickcontactButton();
-    await contactpage.enterNameOfContact(`${espoCRM.firstName} ${espoCRM.lastName}`);
+    await homepage.clickContactButton();
+    await contactpage.enterNameOfContact(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
     await contactpage.clickSearchIcon();
-    expect(await contactpage.getSearchResultContactName()).toEqual(`${espoCRM.firstName} ${espoCRM.lastName}`);
+    expect(await contactpage.getFirstSearchResultContactName()).toEqual(
+      `${espoCRM.firstName} ${espoCRM.lastName}`
+    );
     expect(await contactpage.getSearchResultCount()).toEqual(1);
   });
 });
@@ -42,7 +46,7 @@ test("Verify Mandatory Fields", async ({
   contactpage,
   createContactPage,
 }) => {
-  await homepage.clickcontactButton();
+  await homepage.clickContactButton();
   await contactpage.clickCreateContactButton();
   await createContactPage.clickSave();
   const errorText = await createContactPage.getNameErrorText();

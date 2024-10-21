@@ -1,4 +1,4 @@
-import { test,expect} from "@fixtures/pomFixture";
+import { test, expect } from "@fixtures/pomFixture";
 import fs from "fs/promises";
 import { EspoCRM } from "@testData/espoCRMTypes";
 
@@ -11,27 +11,44 @@ test.describe.serial("Account Creation & Verification", () => {
     await loginpage.clickloginButton();
   });
 
-  test("Create New Account", async ({ homepage, accountPage,createAccountPage,accountInfoPage}) => {
-    await homepage.clickaccountButton();
+  test("Create New Account", async ({
+    homepage,
+    accountPage,
+    createAccountPage,
+    accountInfoPage,
+  }) => {
+    await homepage.clickAccountButton();
     await accountPage.clickCreateAccountButton();
     await createAccountPage.createCompleteAccount();
-    espoCRM=JSON.parse(await fs.readFile("testData/espoCRM.json","utf-8")) as EspoCRM
-    expect(await accountInfoPage.getAccountTitleText()).toEqual(espoCRM.nameofAccount);
+    espoCRM = JSON.parse(
+      await fs.readFile("testData/espoCRM.json", "utf-8")
+    ) as EspoCRM;
+    expect(await accountInfoPage.getAccountTitleText()).toEqual(
+      espoCRM.nameofAccount
+    );
   });
 
-  test("Search by name of account", async ({page,homepage,accountPage}) => {
-    await homepage.clickaccountButton();
+  test("Search by name of account", async ({homepage, accountPage }) => {
+    await homepage.clickAccountButton();
     await accountPage.enterNameOfAccount(espoCRM.nameofAccount);
     await accountPage.clickSearchIcon();
-    expect(await accountPage.getSearchResultAccountName()).toEqual(espoCRM.nameofAccount);
+    expect(await accountPage.getFirstSearchResultAccountName()).toEqual(
+      espoCRM.nameofAccount
+    );
     expect(await accountPage.getSearchResultCount()).toEqual(1);
   });
 });
 
-test("Verify Mandatory Fields", async ({page,loginpage,homepage,accountPage,createAccountPage}) => {
+test("Verify Mandatory Fields", async ({
+  page,
+  loginpage,
+  homepage,
+  accountPage,
+  createAccountPage,
+}) => {
   await page.goto("/");
   await loginpage.clickloginButton();
-  await homepage.clickaccountButton();
+  await homepage.clickAccountButton();
   await accountPage.clickCreateAccountButton();
   await createAccountPage.clickSave();
   const errorText = await createAccountPage.getNameErrorText();

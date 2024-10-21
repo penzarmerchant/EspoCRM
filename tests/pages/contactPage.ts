@@ -5,13 +5,17 @@ export class ContactPage extends BasePage {
   private readonly createContactButton: Locator;
   private readonly searchTextBox: Locator;
   private readonly searchIcon: Locator;
-  private readonly searchResultContactName:Locator;
+  private readonly firstSearchResultContactName: Locator;
+  private readonly searchResultContactName: Locator;
 
   constructor(page: Page) {
     super(page);
     this.createContactButton = page.locator('a[data-name="create"]');
     this.searchTextBox = page.locator('input[data-name="textFilter"]');
     this.searchIcon = page.locator('button[title="Search"]');
+    this.firstSearchResultContactName = page.locator(
+      '(//td[@data-name="name"])[1]'
+    );
     this.searchResultContactName = page.locator('td[data-name="name"]');
   }
 
@@ -31,7 +35,7 @@ export class ContactPage extends BasePage {
     return await this.getElementCount(this.searchResultContactName);
   }
 
-  async getSearchResultContactName(): Promise<string> {
-    return await this.getElementText(this.searchResultContactName);
+  async getFirstSearchResultContactName(): Promise<string> {
+    return await this.getElementText(this.firstSearchResultContactName);
   }
 }

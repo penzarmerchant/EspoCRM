@@ -5,6 +5,7 @@ export class AccountPage extends BasePage {
   private readonly createAccountButton: Locator;
   private readonly searchBarInputBox: Locator;
   private readonly searchIcon: Locator;
+  private readonly firstSearchResultAccountName: Locator;
   private readonly searchResultAccountName: Locator;
 
   constructor(page: Page) {
@@ -12,6 +13,9 @@ export class AccountPage extends BasePage {
     this.createAccountButton = page.locator('a[data-name="create"]');
     this.searchBarInputBox = page.locator('input[data-name="textFilter"]');
     this.searchIcon = page.locator('button[title="Search"]');
+    this.firstSearchResultAccountName = page.locator(
+      '(//td[@data-name="name"])[1]'
+    );
     this.searchResultAccountName = page.locator('td[data-name="name"]');
   }
 
@@ -31,7 +35,7 @@ export class AccountPage extends BasePage {
     return await this.getElementCount(this.searchResultAccountName);
   }
 
-  async getSearchResultAccountName(): Promise<string> {
-    return await this.getElementText(this.searchResultAccountName);
+  async getFirstSearchResultAccountName(): Promise<string> {
+    return await this.getElementText(this.firstSearchResultAccountName);
   }
 }
