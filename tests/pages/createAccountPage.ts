@@ -65,7 +65,13 @@ export class CreateAccountPage extends BasePage {
     this.nameErrorMessage = page.locator("#notification");
   }
 
+  async waitForCreateAccountPageToLoad():Promise<void>{
+    await this.waitForPageToLoad();
+    await this.waitForElementVisible(this.teamsDropDown);
+}
+
   async enterName(nameText: string) {
+    await this.waitForCreateAccountPageToLoad();
     await this.fillField(this.nameTextBox, nameText);
   }
 

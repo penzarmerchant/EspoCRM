@@ -7,7 +7,7 @@ const nameErrorMessage: string = "Not valid";
 
 test.beforeEach(async ({ page, loginpage }) => {
   await page.goto("/");
-  await loginpage.clickloginButton();
+  await loginpage.clickLoginButton();
 });
 
 test.describe.serial("Contact Creation & Verification", () => {

@@ -1,16 +1,21 @@
-import {Page,Locator} from '@playwright/test'
-import BasePage from './basepage';
+import { Page, Locator } from "@playwright/test";
+import BasePage from "./basepage";
 
-export class LoginPage extends BasePage
-{
-    private readonly loginButton:Locator
+export class LoginPage extends BasePage {
+  private readonly loginButton: Locator;
 
-    constructor(page: Page) {
-        super(page)
-        this.loginButton=page.locator('#btn-login');
-    }
+  constructor(page: Page) {
+    super(page);
+    this.loginButton = page.locator("#btn-login");
+  }
 
-    async clickloginButton() {
-        await this.clickelement(this.loginButton);
-      }
+  async waitForLoginPageToLoad(): Promise<void> {
+    await this.waitForPageToLoad();
+    await this.waitForElementVisible(this.loginButton);
+  }
+
+  async clickLoginButton() {
+    await this.waitForLoginPageToLoad();
+    await this.clickelement(this.loginButton);
+  }
 }

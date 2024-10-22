@@ -61,7 +61,13 @@ export class CreateContactPage extends BasePage {
     this.nameErrorMessage = page.locator("#notification");
   }
 
+  async waitForCreateContactPageToLoad():Promise<void>{
+    await this.waitForPageToLoad();
+    await this.waitForElementVisible(this.teamsDropDown);
+}
+
   async enterSalutations(salutationText: string) {
+    await this.waitForCreateContactPageToLoad();
     await this.selectDynamicDropDown(this.salutationDropdown,this.salutationDropdownValues,salutationText)
   }
 
