@@ -4,5 +4,7 @@
     "industry":"Agriculture",
     "assignedUser":"Jack Adams",
     "teams":"Sales",
-    "salutation":"Mr."
+    "salutation":"Mr.",
+    "date":31,
+    "monthYear":"October 2024"    
 }

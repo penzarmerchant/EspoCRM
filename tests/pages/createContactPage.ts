@@ -4,6 +4,7 @@ import { generateMockData } from "@testData/generateTestData";
 import fs from "fs/promises";
 import { EspoCRM } from "@testData/espoCRMTypes";
 import * as constantsData from "@testData/constants.json"
+import { calendarHandling } from "helpers/utils";
 
 export class CreateContactPage extends BasePage {
   private readonly salutationDropdown: Locator;
@@ -27,6 +28,11 @@ export class CreateContactPage extends BasePage {
   private readonly teamsDropDownValues: Locator;
   private readonly saveButton: Locator;
   private readonly nameErrorMessage: Locator;
+  private readonly calendarTextBox:Locator;
+  private readonly calendarPrevMonthButton:Locator;
+  private readonly calendarNextMonthButton:Locator;
+  private readonly calendarMonthYearButton:Locator;
+  
 
   constructor(page: Page) {
     super(page);
@@ -59,6 +65,10 @@ export class CreateContactPage extends BasePage {
     this.teamsDropDownValues=page.locator('.autocomplete-suggestions>.autocomplete-suggestion');
     this.saveButton = page.locator('button[data-name="save"]');
     this.nameErrorMessage = page.locator("#notification");
+    this.calendarTextBox=page.locator('div[data-name="birthday"] input');
+    this.calendarPrevMonthButton=page.locator('.datepicker-days th.prev');
+    this.calendarNextMonthButton=page.locator('.datepicker-days th.next');
+    this.calendarMonthYearButton=page.locator('.datepicker-days th.datepicker-switch');
   }
 
   async waitForCreateContactPageToLoad():Promise<void>{
@@ -135,6 +145,11 @@ export class CreateContactPage extends BasePage {
     return await this.getElementText(this.nameErrorMessage);
   }
 
+  async selectCalendar(date:Number,monthYear:string){
+      await this.clickelement(this.calendarTextBox);
+      await calendarHandling(this.page,date,monthYear,this.calendarPrevMonthButton,this.calendarMonthYearButton,this.calendarNextMonthButton);
+  }
+
   async createCompleteContact() {
     await generateMockData("testData/espoCRM.json");
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -153,6 +168,7 @@ export class CreateContactPage extends BasePage {
     await this.enterCountry(espoCRM.country);
     await this.enterAssignedUser(constantsData.assignedUser);
     await this.enterTeams(constantsData.teams);
+    await this.selectCalendar(constantsData.date,constantsData.monthYear);
     await this.clickSave();
   }
 }
