@@ -6,7 +6,11 @@ const nameErrorMessage: string = "Not valid";
 let espoCRM;
 
 test.describe.serial("Account Creation & Verification", () => {
-  test.beforeEach(async ({ page, loginpage }) => {
+  
+  test.beforeEach(async ({ page, loginpage,browserName}) => {
+    if(browserName==='webkit'){
+      test.setTimeout(90000);
+    }
     await page.goto("/");
     await loginpage.clickLoginButton();
   });
@@ -15,7 +19,7 @@ test.describe.serial("Account Creation & Verification", () => {
     homepage,
     accountPage,
     createAccountPage,
-    accountInfoPage,
+    accountInfoPage
   }) => {
     await homepage.clickAccountButton();
     await accountPage.clickCreateAccountButton();
@@ -28,7 +32,8 @@ test.describe.serial("Account Creation & Verification", () => {
     );
   });
 
-  test("Search by name of account", async ({ homepage, accountPage }) => {
+  test("Search by name of account", async ({ homepage, accountPage}) => {
+
     await homepage.clickAccountButton();
     await accountPage.enterNameOfAccount(espoCRM.nameofAccount);
     await accountPage.clickSearchIcon();
@@ -44,7 +49,7 @@ test("Verify Mandatory Fields", async ({
   loginpage,
   homepage,
   accountPage,
-  createAccountPage,
+  createAccountPage
 }) => {
   await page.goto("/");
   await loginpage.clickLoginButton();

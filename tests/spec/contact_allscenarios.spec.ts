@@ -4,8 +4,11 @@ import { EspoCRM } from "@testData/espoCRMTypes";
 
 let espoCRM;
 const nameErrorMessage: string = "Not valid";
-
-test.beforeEach(async ({ page, loginpage }) => {
+;
+test.beforeEach(async ({ page, loginpage,browserName}) => {
+  if(browserName==='webkit'){
+    test.setTimeout(90000);
+  }
   await page.goto("/");
   await loginpage.clickLoginButton();
 });
@@ -15,7 +18,7 @@ test.describe.serial("Contact Creation & Verification", () => {
     homepage,
     createContactPage,
     contactpage,
-    contactInfoPage,
+    contactInfoPage
   }) => {
     await homepage.clickContactButton();
     await contactpage.clickCreateContactButton();
@@ -44,7 +47,7 @@ test.describe.serial("Contact Creation & Verification", () => {
 test("Verify Mandatory Fields", async ({
   homepage,
   contactpage,
-  createContactPage,
+  createContactPage
 }) => {
   await homepage.clickContactButton();
   await contactpage.clickCreateContactButton();
