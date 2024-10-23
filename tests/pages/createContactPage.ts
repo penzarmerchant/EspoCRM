@@ -34,6 +34,9 @@ export class CreateContactPage extends BasePage {
   private readonly calendarMonthYearButton:Locator;
   private readonly photoUpload:Locator;
   private readonly uploadingPhotoText:Locator;
+  private readonly accountSearchResultNameText:Locator;
+  private readonly searchBarTextBox:Locator;
+  private readonly searchIcon:Locator;
   
 
   constructor(page: Page) {
@@ -73,6 +76,9 @@ export class CreateContactPage extends BasePage {
     this.calendarPrevMonthButton=page.locator('.datepicker-days th.prev');
     this.calendarNextMonthButton=page.locator('.datepicker-days th.next');
     this.calendarMonthYearButton=page.locator('.datepicker-days th.datepicker-switch');
+    this.accountSearchResultNameText=page.locator('(//td[@data-name="name"])[6]');
+    this.searchBarTextBox=page.locator('input[data-name="textFilter"]');
+    this.searchIcon=page.locator('button[data-action="search"]');
   }
 
   async waitForCreateContactPageToLoad():Promise<void>{
@@ -93,8 +99,11 @@ export class CreateContactPage extends BasePage {
     await this.fillField(this.lastNameTextBox, lastNameText);
   }
 
-  async selectFirstAccountsName(){
+  async selectAccount(){
       await this.clickelement(this.accountsDropDown);
+      const searchNameText=(await this.accountSearchResultNameText.textContent()).trim();
+      await this.fillField(this.searchBarTextBox,searchNameText);
+      await this.clickelement(this.searchIcon);
       await this.clickelement(this.firstSearchAccountResult);
   }
 
@@ -168,7 +177,7 @@ export class CreateContactPage extends BasePage {
     await this.enterSalutations(constantsData.salutation);  
     await this.enterFirstName(espoCRM.firstName);
     await this.enterLastName(espoCRM.lastName);
-    await this.selectFirstAccountsName();
+    await this.selectAccount();
     await this.enterEmail(espoCRM.email);
     await this.enterPhoneNumber(espoCRM.phoneNumber);
     await this.enterStreet(espoCRM.streetAddress);
