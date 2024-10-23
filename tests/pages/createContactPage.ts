@@ -32,6 +32,8 @@ export class CreateContactPage extends BasePage {
   private readonly calendarPrevMonthButton:Locator;
   private readonly calendarNextMonthButton:Locator;
   private readonly calendarMonthYearButton:Locator;
+  private readonly photoUpload:Locator;
+  private readonly uploadingPhotoText:Locator;
   
 
   constructor(page: Page) {
@@ -58,6 +60,8 @@ export class CreateContactPage extends BasePage {
     this.countryTextBox = page.locator(
       '[data-name="addressCountry"]'
     );
+    this.photoUpload=page.locator('label[title="Attach File"]');
+    this.uploadingPhotoText=page.locator('.uploading-message');
     this.descriptionTextBox = page.locator('textarea[data-name="description"]');
     this.assignedUserDropDown = page.locator('input[data-name="assignedUserName"]');
     this.assignedUserDropDownValues=page.locator('.autocomplete-suggestions>.autocomplete-suggestion')
@@ -150,11 +154,17 @@ export class CreateContactPage extends BasePage {
       await calendarHandling(this.page,date,monthYear,this.calendarPrevMonthButton,this.calendarMonthYearButton,this.calendarNextMonthButton);
   }
 
+  async uploadPhoto(){
+    await this.photoUpload.setInputFiles(constantsData.uploadImage);
+    await this.waitForElementHidden(this.uploadingPhotoText);
+  }
+
   async createCompleteContact() {
     await generateMockData("testData/espoCRM.json");
     await new Promise((resolve) => setTimeout(resolve, 500));
     const espoCRM = JSON.parse(
-      await fs.readFile("testData/espoCRM.json", "utf-8")) as EspoCRM;
+    await fs.readFile("testData/espoCRM.json", "utf-8")) as EspoCRM;
+    await this.uploadPhoto();
     await this.enterSalutations(constantsData.salutation);  
     await this.enterFirstName(espoCRM.firstName);
     await this.enterLastName(espoCRM.lastName);

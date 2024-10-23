@@ -30,6 +30,10 @@ export default class BasePage {
     }
   }
 
+  async waitForElementHidden(element: Locator,maxTimeout?:number) {
+    await element.waitFor({ state:'hidden',timeout:maxTimeout});
+  }
+
   async getElementText(element: Locator,maxTimeout?:number): Promise<string> {
     this.waitForElementVisible(element,maxTimeout);
     return element.innerText({timeout:maxTimeout});
@@ -62,4 +66,6 @@ export default class BasePage {
     await optionLocator.waitFor({state:'visible'});
     await optionLocator.click();
   }
+
+
 }

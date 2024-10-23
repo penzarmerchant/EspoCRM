@@ -6,5 +6,6 @@
     "teams":"Sales",
     "salutation":"Mr.",
     "date":31,
-    "monthYear":"October 2024"    
+    "monthYear":"October 2024",
+    "uploadImage":"uploadData/maleImage.png"
 }
