@@ -1,0 +1,11 @@
+version: '3'
+services:
+  playwright-project:
+    image: playwright
+    build: .
+    container_name: playwright-ESPOCRM
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./:/app
+    command: npm run test
